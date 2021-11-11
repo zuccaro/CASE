@@ -33,11 +33,11 @@ all: \
 rdf-toolkit.jar:
 	test -r rdf-toolkit.jar.sha512
 	# Try retrieval from Github, then from files.caseontology.org.
-	wget \
-	  --output-document $@_ \
-	  https://github.com/trypuz/openfibo/blob/1f9ab415e8ebd131eadcc9b0fc46241adeeb0384/etc/serialization/rdf-toolkit.jar?raw=true \
-	  || wget \
-	    --output-document $@_ \
+	curl \
+	  -o $@_ \
+          https://jenkins.edmcouncil.org/view/rdf-toolkit/job/rdf-toolkit-build/lastSuccessfulBuild/artifact/target/rdf-toolkit.jar \
+	  || curl \
+	    -o $@_ \
 	    http://files.caseontology.org/rdf-toolkit.jar
 	test \
 	  "x$$(openssl dgst -sha512 $@_ | awk '{print($$NF)}')" \
